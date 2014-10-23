@@ -1,0 +1,90 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <base href="/">
+    <title>千帆渡云图</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(app) styles/vendor.css -->
+    <!-- bower:css -->
+    <%= stylesheet_link_tag "application", media: "all" %>
+    <!-- endbower -->
+    <%= javascript_include_tag 'application' %>
+  </head>
+  <body ng-app="viroscope-app">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using a <strong>massively out of date</strong> browser.
+        Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <!-- <div class="container" ng-include="'partials/main'" ng-controller="MainCtrl"> -->
+
+    <div class="container-fluid" ng-controller="MainCtrl">
+      <div ng-include="'partials/navbar'"></div>
+      <div class="row">
+        <div class="col-sm-2">
+          <div ng-include="'partials/accordion'"></div>
+
+          <!--
+              Why does this include cause the $scope.searchText variable
+              in main.coffee to not get updated?  We have to include the
+              search.html text here for some reason.
+
+              <div ng-include="'partials/search'"></div>
+          -->
+          <div id="search">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+              <input id="search-input" type="text" class="form-control" placeholder="Search..." ng-model="searchText" ng-change="viroscope.refresh()">
+            </div>
+          </div>
+
+          <!-- Unpin button -->
+          <div ng-model="nodesPinned">
+            <div ng-show="nodesPinned > 0">
+              <div class="btn-group btn-group-xs">
+                <button type="button" class="btn btn-default" id="release-pinned-nodes" ng-click="unpinAll()">Release pinned nodes</button>
+              </div>
+            </div>
+          </div>
+
+          <div ng-include="'partials/info'"></div>
+
+        </div>
+
+        <div class="col-sm-10">
+          <div id="viroscope"></div>
+        </div>
+      </div>
+    </div>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- build:js(app) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="jquery/dist/jquery.js"></script>
+    <script src="angular/angular.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.js"></script>
+    <script src="angular-sanitize/angular-sanitize.js"></script>
+    <script src="d3/d3.js"></script>
+    <script src="angular-rangeslider/angular.rangeSlider.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/navbar.js"></script>
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+
+</body>
+</html>

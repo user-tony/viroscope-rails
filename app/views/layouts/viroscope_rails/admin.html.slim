@@ -1,0 +1,58 @@
+doctype html
+html
+  head
+    meta http-equiv="Content-Type" content="text/html; charset=utf-8"
+    title Rails Admin
+    = stylesheet_link_tag "rails_admin_content", media: "all"
+    = javascript_include_tag 'rails_admin_content'
+    = csrf_meta_tag
+  body.bgcolor16
+    - if flash[:success]
+      javascript:
+        message_show("#{flash[:success]}", 'success');
+    - if flash[:notice]
+      javascript:
+        message_show("#{flash[:notice]}");
+    - if flash[:errors]
+      javascript:
+        message_show("#{flash[:errors]}", 'errors');
+    #body.railsadmin
+      = render 'header'
+      .Container
+        .sidebar
+          .searchbox
+            form
+              .search
+                input.text type="text" value="" id="seaerch-T" placeholder="搜索文档"
+                input.submit type="submit" title="搜索文档" value="" onclick="return false"
+          .section
+            / h3 账号
+            ul.link_list
+              - RailsAdminContent::Client.get_tables.each do |table|
+                li data-field="#{table.values.first}"
+                  = link_to table.values.first.to_s.truncate(30), develop_manage_path(table.values.first), title: "[#{table.keys.first}] #{table.values.first}", class: "#{'current' if params[:id] == table.values.first}"
+        .main
+          .section
+            - if action_name =~ /show/
+              h1 
+                = params[:id]
+              .formbox
+                = render 'filter'
+            - if action_name =~ /query/
+              h1
+              .formbox
+                = render 'form'
+            = yield
+
+        .clear
+      .ra_tools
+        .fadeout
+        .tools_box
+          .manipulate
+            - if action_name =~ /show/
+              = link_to '+', new_develop_manage_path(id: RailsAdminContent::Client.table_name),class: 'tool_01'
+              = link_to '-', "", class: 'tool_02', title: '删除', id: 'btn_del'
+            / a.tool_02 href="#" - 
+            / a.tool_03 href="#" v
+          = custom_paginate(@entries, spage: @page, stint: @per) if @entries.present?
+          a.layout_scrolltop id="layout_scrolltop" style="visibility: visible;" &nbsp;
